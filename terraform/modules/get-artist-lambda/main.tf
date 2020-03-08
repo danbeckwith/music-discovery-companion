@@ -2,7 +2,7 @@ resource "aws_lambda_function" "get_artist" {
   function_name = "get-artist"
 
   s3_bucket = "music-discovery-companion-lambda-source"
-  s3_key    = "get-artist/0.0.1-SNAPSHOT-b3/get-artist-lambda.zip"
+  s3_key    = "get-artist/0.0.2-SNAPSHOT-b4/get-artist-lambda.zip"
 
   role = aws_iam_role.lambda_assume_role.arn
 
@@ -35,6 +35,14 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_exec" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-output "get_artist_lambda_arn" {
+output "arn" {
   value = aws_lambda_function.get_artist.arn
+}
+
+output "invoke_arn" {
+  value = aws_lambda_function.get_artist.invoke_arn
+}
+
+output "name" {
+  value = aws_lambda_function.get_artist.function_name
 }

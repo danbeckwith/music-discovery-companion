@@ -1,20 +1,21 @@
 'use strict'
 
 exports.handler = function (event, context, callback) {
-    console.log(JSON.stringify(`Invoked lambda...`))
-    
-    // context.succeed('Success!')
-    // context.fail('Failed!')
-    
-    console.log("Lambda invoked...");
+  console.log("Latest lambda invoked...");
 
-    const response = {
-        statusCode: 200,
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8'
-        },
-        body: '<p>Hello world!</p>'
-    }
+  let name = "world";
 
-    callback(null, response)
+  if (event.queryStringParameters) {
+    name = event.queryStringParameters.name;
+  }
+  
+  const response = {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8'
+    },
+    body: `<p>Hello ${name}!</p>`
+  }
+
+  callback(null, response)
 }

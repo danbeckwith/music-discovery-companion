@@ -3,5 +3,5 @@ module "get_artist" {
 }
 
 output "get_artist_arn" {
-  value = module.get_artist.get_artist_lambda_arn
+  value = module.get_artist.arn
 }
