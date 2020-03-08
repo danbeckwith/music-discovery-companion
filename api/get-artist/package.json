@@ -1,0 +1,31 @@
+{
+  "name": "get-artist",
+  "version": "1.0.0",
+  "description": "Lambda to retrieve artist info from Spotify API",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danbeckwith/music-discovery-companion.git"
+  },
+  "keywords": [
+    "serverless",
+    "spotify",
+    "node",
+    "lambda"
+  ],
+  "author": "Daniel Beckwith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danbeckwith/music-discovery-companion/issues"
+  },
+  "homepage": "https://github.com/danbeckwith/music-discovery-companion#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-jest": "^25.1.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^25.1.0"
+  }
+}
