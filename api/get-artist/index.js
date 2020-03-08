@@ -1,7 +1,19 @@
 'use strict'
 
+const AWS = require("aws-sdk");
+
 exports.handler = function (event, context, callback) {
   console.log("Latest lambda invoked...");
+
+  const secretsManager = new AWS.SecretsManager();
+
+  secretsManager.getSecretValue({SecretId: "clientSecret"}, (err, data) => {
+    if (err !== null) {
+      callback(new Error("Failed to retrieve client secret..."));
+    }
+
+    console.log(`Retrieved secret [${data.Name}]...`);
+  })
 
   let name = "world";
 

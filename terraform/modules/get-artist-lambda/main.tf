@@ -2,7 +2,7 @@ resource "aws_lambda_function" "get_artist" {
   function_name = "get-artist"
 
   s3_bucket = "music-discovery-companion-lambda-source"
-  s3_key    = "get-artist/0.0.2-SNAPSHOT-b4/get-artist-lambda.zip"
+  s3_key    = "get-artist/0.0.2-SNAPSHOT-b6/get-artist-lambda.zip"
 
   role = aws_iam_role.lambda_assume_role.arn
 
