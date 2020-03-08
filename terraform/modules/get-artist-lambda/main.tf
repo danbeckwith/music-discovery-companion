@@ -8,6 +8,12 @@ resource "aws_lambda_function" "get_artist" {
 
   handler = "index.handler"
   runtime = "nodejs12.x"
+
+  environment {
+    variables = {
+      CLIENT_ID = "6aa76e948d424e93b1262ed96a9e0e4d"
+    }
+  }
 }
 
 resource "aws_iam_role" "lambda_assume_role" {
