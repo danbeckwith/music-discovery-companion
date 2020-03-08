@@ -102,3 +102,13 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Zipped lambda source code
+*.tar.gz
+*.zip
+
+# Lambda outputs
+output.json
+
+# Terraform
+terraform/.terraform/*
