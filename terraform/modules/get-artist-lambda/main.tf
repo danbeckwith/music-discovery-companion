@@ -35,6 +35,31 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_exec" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+resource "aws_iam_role_policy_attachment" "client_secret_read_access" {
+  role = aws_iam_role.lambda_assume_role.name
+  policy_arn = aws_iam_policy.client_secret_read_access.arn
+}
+
+resource "aws_iam_policy" "client_secret_read_access" {
+  name = "lambda_client_secret_read_access"
+  policy = data.aws_iam_policy_document.client_secret_read_access.json
+}
+
+data "aws_iam_policy_document" "client_secret_read_access" {
+  statement {
+    actions = [
+      "secretsmanager:GetResourcePolicy",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:ListSecretVersionIds"
+    ]
+
+    resources = [
+      var.client_secret
+    ]
+  }
+}
+
 output "arn" {
   value = aws_lambda_function.get_artist.arn
 }

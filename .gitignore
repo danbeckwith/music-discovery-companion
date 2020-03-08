@@ -112,3 +112,4 @@ output.json
 
 # Terraform
 terraform/.terraform/*
+terraform/terraform.tfvars.json
