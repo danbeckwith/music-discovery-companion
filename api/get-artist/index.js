@@ -1,33 +1,33 @@
 'use strict'
 
-const AWS = require("aws-sdk");
+const SecretsManager = require('aws-sdk/clients/secretsmanager');
 
-exports.handler = function (event, context, callback) {
-  console.log("Latest lambda invoked...");
+const buildResponse = (name) => ({
+  statusCode: 200,
+  headers: {
+    'Content-Type': 'text/html; charset=utf-8'
+  },
+  body: `<p>Hello ${name}!</p>`
+})
 
-  const secretsManager = new AWS.SecretsManager();
+exports.handler = ({ event }) => {
+  console.log("Invoking...");
 
-  secretsManager.getSecretValue({SecretId: "clientSecret"}, (err, data) => {
-    if (err !== null) {
-      callback(new Error("Failed to retrieve client secret..."));
-    }
+  console.log('event :', JSON.stringify(event));
 
-    console.log(`Retrieved secret [${data.Name}]...`);
-  })
+  SecretsManager.getSecretValue({SecretId: "clientSecret"}, (err, data) => {
+    if (err) return err
 
-  let name = "world";
+    console.log("GOT IT");
+  });
 
-  if (event.queryStringParameters) {
-    name = event.queryStringParameters.name;
+  let name = "World";
+
+  if (event.queryStringParameters && event.queryStringParameters.name) {
+    name = event.queryStringParameters.name
   }
+
+  // const name = event.queryStringParameters.name || "world";
   
-  const response = {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'text/html; charset=utf-8'
-    },
-    body: `<p>Hello ${name}!</p>`
-  }
-
-  callback(null, response)
+  return buildResponse(name);
 }

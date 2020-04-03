@@ -1,58 +1,53 @@
 import { handler } from "../index";
-import AWS from 'aws-sdk'
+const SecretsManager = require('aws-sdk/clients/secretsmanager');
 
-jest.mock('aws-sdk', () => {
+// jest.mock('aws-sdk', () => {
+//     return {
+//         SecretsManager: jest.fn().mockImplementation(() => ({
+//             getSecretValue: mockGetSecretValue
+//         }))
+//     }
+// });
+
+const mockGetSecretValue = jest.fn()
+
+jest.mock('aws-sdk/clients/secretsmanager', () => {
     return {
-        SecretsManager: jest.fn().mockImplementation(() => {
-            return {
-                getSecretValue: jest.fn()
-            }
-        })
+        getSecretValue: jest.fn().mockResolvedValue("42")
     }
 });
 
 beforeEach(() => {
-    AWS.SecretsManager.mockClear();
+    jest.clearAllMocks();
 })
 
 test("lambda returns 200 when called", () => {
-    handler({}, {}, (err, response) => {
-        expect(err).toBeNull();
-        expect(response.statusCode).toBe(200)
-    });
+    const res = handler({ event: { queryStringParameters : { name: "Dan "} }});
+    
+    expect(res.statusCode).toBe(200)
 });
 
-test("should responsd with Hello world! when name isn't specified", () => {
-    handler({}, {}, (err, response) => {
-        expect(err).toBe(null);
-        expect(response.body).toBe("<p>Hello world!</p>")
-    })
+test("should respond with Hello world! when name isn't specified", () => {
+    const res = handler({ event: {}});
+    
+    expect(res.body).toBe("<p>Hello World!</p>")
+    // handler({}, {}, (err, response) => {
+    //     expect(err).toBe(null);
+    //     expect(response.body).toBe("<p>Hello world!</p>")
+    // })
 })
 
 test("should responsd with Hello <<name>>! when name is specified as a query param", () => {
-    const event = {
-        queryStringParameters: {
-            name: "Dan"
-        }
-    }
+    const res = handler({ event: { queryStringParameters : { name: "Dan"} }});
 
-    handler(event, {}, (err, response) => {
-        expect(err).toBe(null);
-        expect(response.body).toBe("<p>Hello Dan!</p>");
-    });
+    // todo expect err to be null
+
+    expect(res.body).toBe("<p>Hello Dan!</p>")
 });
 
-test("should create secret manager class instance", () => {
-    handler({}, {}, (err, response) => {
-        expect(AWS.SecretsManager).toHaveBeenCalledTimes(1);
-    })
-});
+test("should call secrets manager to get client secret", () => {
 
-// test("should call secrets manager to get client secret", () => {
-//     handler({}, {}, (err, response) => {
-//         const cb = jest.fn
-//         expect(AWS.SecretsManager.getSecretValue).toHaveBeenCalledWith({
-//             SecretId: "clientSecret", cb
-//         });
-//     })
-// })
+    const res = handler({ event: { queryStringParameters : { name: "Dan"} }});
+
+    expect(SecretsManager.getSecretValue).toHaveBeenCalledTimes(1);
+})
