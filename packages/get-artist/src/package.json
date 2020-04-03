@@ -23,9 +23,6 @@
   },
   "homepage": "https://github.com/danbeckwith/music-discovery-companion#readme",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-jest": "^25.1.0",
-    "babel-preset-env": "^1.7.0",
     "aws-sdk": "^2.635.0",
     "jest": "^25.1.0"
   },
