@@ -11,6 +11,8 @@ const buildResponse = (statusCode, name) => ({
 });
 
 exports.handler = async (event) => {
+  console.log("Invoking get-artist lamnda");
+
   const clientSecret = await manager.getSecretValue({SecretId: "clientSecret"}).promise()
 
   const name = event.queryStringParameters ? event.queryStringParameters.name : 'World';
