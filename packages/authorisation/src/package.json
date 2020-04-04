@@ -1,0 +1,13 @@
+{
+  "name": "authorisation",
+  "version": "0.0.1",
+  "description": "Lambda to retrieve Auth Token to access Spotify API",
+  "main": "index.js",
+  "author": "Dan Beckwith",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "aws-sdk": "^2.653.0",
+    "jest": "^25.2.7"
+  }
+}

@@ -28,13 +28,13 @@ resource "aws_api_gateway_integration" "get_artist_lambda" {
   http_method             = aws_api_gateway_method.get_artist.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = module.get_artist.invoke_arn
+  uri                     = module.lambda.get_artist_invoke_arn
 }
 
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = module.get_artist.arn
+  function_name = module.lambda.get_artist_arn
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "arn:aws:execute-api:eu-west-1:757782070749:${aws_api_gateway_rest_api.api.id}/*/${aws_api_gateway_method.get_artist.http_method}${aws_api_gateway_resource.get_artist.path}"
